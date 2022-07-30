@@ -4,11 +4,93 @@
 /* reset CSS */
 @import url("https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css");
 
-body {
-  font-family: "Rokkitt", serif;
+@mixin center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-h1 {
-  font-size: 38px;
-  font-family: "UnifrakturMaguntia", cursive;
+/* Common css */
+body {
+  font-family: "Rokkitt", serif;
+  line-height: 1.6;
+}
+button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/* Header Section */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2rem;
+  .title {
+    font-size: 38px;
+    font-family: "UnifrakturMaguntia", cursive;
+  }
+  .bookmark {
+    position: absolute;
+    top: 2.5rem;
+    right: 7%;
+    span {
+      font-size: 2rem;
+    }
+  }
+  .search-section {
+    @include center;
+    flex-direction: column;
+    .search-wrap {
+      position: relative;
+      margin-top: 1rem;
+      input {
+        width: 20rem;
+        height: 1.3rem;
+        padding: 0.5rem 1.5rem;
+        border: 1px solid black;
+        border-radius: 2rem;
+      }
+      input:focus {
+        border: 2px solid rgb(140, 140, 140);
+        outline: none;
+        font-size: 18px;
+      }
+      .btn-search {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0.5rem;
+        line-height: 0;
+      }
+    }
+  }
+  .keyword-wrap {
+    width: 85%;
+    margin-top: 0.5rem;
+    padding: 0.5rem 1.5rem 1rem;
+    box-shadow: 1px 1px 5px #ccc;
+    .keyword-top {
+      width: 100%;
+      display: flex;
+      span {
+        line-height: 1.5;
+        padding-left: 0.5rem;
+        font-size: 16px;
+      }
+    }
+    .keyword-body {
+      li {
+        padding: 0.5rem 0.5rem 0rem;
+        padding-right: 1rem;
+        border-bottom: 1px solid black;
+        overflow: hidden;
+      }
+    }
+  }
 }
