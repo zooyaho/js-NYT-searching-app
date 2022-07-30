@@ -32,7 +32,7 @@ function addArticleHtml(pageNumer) {
       newsList.push(`
         <div class="article-item">
             <div class="article-header">
-              <a href="${newsData.response.docs[i].web_url}" class="title">
+              <a href="${newsData.response.docs[i].web_url}" class="title" target="_blank">
                 ${newsData.response.docs[i].headline.main}
               </a>
               <button class="toggle-star">
@@ -53,13 +53,25 @@ function addArticleHtml(pageNumer) {
   articleEl.innerHTML = newsList.join("");
 }
 
-/* Search Button 핸들러 함수 */
+/* Search Button 클릭 시 api호출하는 핸들러 함수 */
 const clickBtnHandler = () => {
   keyword = inputEl.value;
   pageNum = 1;
   addArticleHtml(pageNum);
 };
 
+/* 0.5초 동안 추가입력이 없으면 api호출하는 핸들러 함수 */
+const unchangedHendler = (e) => {
+  setTimeout(() => {
+    if (e.target.value !== "") {
+      keyword = e.target.value;
+      pageNum = 1;
+      addArticleHtml(pageNum);
+    }
+  }, 500);
+};
+
+inputEl.addEventListener("keyup", unchangedHendler);
 searchBtnEl.addEventListener("click", clickBtnHandler);
 formEl.addEventListener("submit", (e) => {
   // 재로딩 방지
