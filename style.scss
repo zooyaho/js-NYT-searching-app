@@ -20,6 +20,10 @@ button {
   border: none;
   cursor: pointer;
 }
+a {
+  text-decoration: none;
+  color: black;
+}
 
 /* Header Section */
 header {
@@ -101,5 +105,52 @@ header {
     border-top: 2px solid black;
     border-bottom: 2px solid black;
     margin-top: 1.5rem;
+  }
+}
+
+/*  Main */
+.article {
+  margin: 200px 0% 3% 2%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  line-height: 1.2;
+  &-item {
+    margin: 1rem;
+    padding-right: 1rem;
+    border-right: 1px solid #ccc;
+    &:nth-child(3n) {
+      border: none;
+    }
+    .article-header {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      .title {
+        overflow: hidden;
+        font-weight: bold;
+        font-size: 23px;
+      }
+      .toggle-star {
+        color: #525252;
+        display: flex;
+        &.active {
+          color: #ffd056;
+        }
+        span {
+          font-size: 25px;
+        }
+      }
+    }
+    .article-body {
+      overflow: hidden;
+      margin-top: 0.3rem;
+      font-size: 15px;
+    }
+    .article-footer {
+      font-size: 11px;
+      font-weight: 500;
+      color: #8e8e8e;
+      margin-top: 0.3rem;
+    }
   }
 }
