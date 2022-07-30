@@ -1,8 +1,11 @@
+import _ from "lodash";
+
 const ajax = new XMLHttpRequest();
 const NEWS_URL =
-  "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=keyword&page=1&sort=newest&api-key=FdwAiEGYCwpc9manUy55RoDgPUtMOWtX";
-let keyword = "";
+  "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=keyword&page=pageNum&sort=newest&api-key=FdwAiEGYCwpc9manUy55RoDgPUtMOWtX";
+let keyword;
 let newsData;
+let pageNum = 1;
 
 const inputEl = document.querySelector("#keyword");
 const formEl = document.querySelector(".search-form");
@@ -18,30 +21,33 @@ function getData(url) {
 }
 
 /* article에 뉴스기사 html 추가하는 함수 */
-function addArticleHtml() {
+function addArticleHtml(pageNumer) {
   const newsList = [];
-  newsData = getData(NEWS_URL.replace("keyword", keyword.trim())); // 키워드에 대한 뉴스 데이터 받아옴
-  console.log(keyword, newsData);
 
-  for (let i = 0; i < 10; i++) {
-    newsList.push(`
-      <div class="article-item">
-          <div class="article-header">
-            <a href="${newsData.response.docs[i].web_url}" class="title">
-              ${newsData.response.docs[i].headline.main}
-            </a>
-            <button class="toggle-star">
-              <span class="material-icons"> grade </span>
-            </button>
+  for (let j = 0; j < pageNumer; j++) {
+    newsData = getData(
+      NEWS_URL.replace("keyword", keyword.trim()).replace("pageNum", j + 1)
+    ); // 키워드에 대한 뉴스 데이터 받아옴
+    for (let i = 0; i < 10; i++) {
+      newsList.push(`
+        <div class="article-item">
+            <div class="article-header">
+              <a href="${newsData.response.docs[i].web_url}" class="title">
+                ${newsData.response.docs[i].headline.main}
+              </a>
+              <button class="toggle-star">
+                <span class="material-icons"> grade </span>
+              </button>
+            </div>
+            <div class="article-body">
+              <p>${newsData.response.docs[i].abstract}</p>
+            </div>
+            <div class="article-footer">
+              <span class="date">${newsData.response.docs[i].pub_date}</span>
+            </div>
           </div>
-          <div class="article-body">
-            <p>${newsData.response.docs[i].abstract}</p>
-          </div>
-          <div class="article-footer">
-            <span class="date">${newsData.response.docs[i].pub_date}</span>
-          </div>
-        </div>
-      `);
+        `);
+    }
   }
 
   articleEl.innerHTML = newsList.join("");
@@ -50,12 +56,27 @@ function addArticleHtml() {
 /* Search Button 핸들러 함수 */
 const clickBtnHandler = () => {
   keyword = inputEl.value;
-  addArticleHtml();
+  pageNum = 1;
+  addArticleHtml(pageNum);
 };
 
 searchBtnEl.addEventListener("click", clickBtnHandler);
-
 formEl.addEventListener("submit", (e) => {
   // 재로딩 방지
   e.preventDefault();
 });
+window.addEventListener(
+  "scroll",
+  _.throttle(() => {
+    let windowHeight = window.innerHeight; // 스크린 창
+    let fullHeight = document.body.offsetHeight;
+
+    // header 높이: 190px
+    // 스크롤이 바닥에 닿을 경우
+    if (windowHeight + scrollY - 190 >= fullHeight) {
+      console.log("스크롤 바닥!!!!");
+      ++pageNum;
+      addArticleHtml(pageNum);
+    }
+  }, 1000)
+);
