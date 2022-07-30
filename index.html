@@ -16,12 +16,10 @@
   </head>
   <body>
     <header>
-      <div class="title-section">
-        <h1 class="title">The New York Times</h1>
-        <button class="bookmark">
-          <span class="material-icons"> bookmark </span>
-        </button>
-      </div>
+      <h1 class="title">The New York Times</h1>
+      <button class="bookmark">
+        <span class="material-icons"> bookmark </span>
+      </button>
       <div class="search-section">
         <div class="search-wrap">
           <input type="text" placeholder="search" />
@@ -30,18 +28,20 @@
           </button>
         </div>
         <div class="keyword-wrap">
-          <ul>
-            <li><span>bts</span><span class="material-icons"> close </span></li>
-            <li>
-              <span>black pink</span><span class="material-icons"> close </span>
-            </li>
-            <li>
-              <span>weather</span><span class="material-icons"> close </span>
-            </li>
-          </ul>
+          <div class="keyword-top">
+            <p>Recent Keyword</p>
+            <span class="material-icons"> schedule </span>
+          </div>
+          <div class="keyword-body">
+            <ul>
+              <li>bts</li>
+              <li>black pink</li>
+              <li>wather</li>
+            </ul>
+          </div>
         </div>
       </div>
-      <div class="hr"></div>
     </header>
+    <div class="hr"></div>
   </body>
 </html>
