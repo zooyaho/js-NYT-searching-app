@@ -54,7 +54,7 @@ header {
   .search-section {
     @include center;
     flex-direction: column;
-    .search-wrap {
+    .search-form {
       position: relative;
       margin-top: 1rem;
       input {
@@ -69,12 +69,17 @@ header {
         outline: none;
         font-size: 18px;
       }
-      .btn-search {
+      input[type="submit"] {
+        display: none;
+      }
+      label {
+        cursor: pointer;
         position: absolute;
         top: 0;
         bottom: 0;
-        right: 0.5rem;
-        line-height: 0;
+        display: flex;
+        align-items: center;
+        right: 1rem;
       }
     }
   }
