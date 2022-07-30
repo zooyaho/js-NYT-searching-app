@@ -121,11 +121,15 @@ header {
   margin: 200px 0% 3% 2%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: repeat(auto-fill, minmax(10rem, 10rem));
   line-height: 1.2;
   &-item {
     margin: 1rem;
     padding-right: 1rem;
     border-right: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     &:nth-child(3n) {
       border: none;
     }
@@ -133,6 +137,7 @@ header {
       display: flex;
       flex-wrap: nowrap;
       justify-content: space-between;
+      // height: 40%;
       .title {
         overflow: hidden;
         font-weight: bold;
