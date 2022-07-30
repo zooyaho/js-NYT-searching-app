@@ -6,11 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The New York Times</title>
     <link rel="icon" href="./favicon.ico" type="image/x-icon" sizes="16x16" />
+    <!-- Google Material icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./style.scss" />
     <script defer src="./script.js"></script>
   </head>
   <body>
-    <h1>The New York Times</h1>
-    <p>Almost before we knew it, we had left the ground.</p>
+    <header>
+      <div class="title-section">
+        <h1 class="title">The New York Times</h1>
+        <button class="bookmark">
+          <span class="material-icons"> bookmark </span>
+        </button>
+      </div>
+      <div class="search-section">
+        <div class="search-wrap">
+          <input type="text" placeholder="search" />
+          <button class="btn-search" type="button">
+            <span class="material-icons"> search </span>
+          </button>
+        </div>
+        <div class="keyword-wrap">
+          <ul>
+            <li><span>bts</span><span class="material-icons"> close </span></li>
+            <li>
+              <span>black pink</span><span class="material-icons"> close </span>
+            </li>
+            <li>
+              <span>weather</span><span class="material-icons"> close </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="hr"></div>
+    </header>
   </body>
 </html>
