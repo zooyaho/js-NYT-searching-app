@@ -1,3 +1,14 @@
+/* font */
+@import url("https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rokkitt:wght@400;500;700&display=swap");
+/* reset CSS */
+@import url("https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css");
+
+body {
+  font-family: "Rokkitt", serif;
+}
+
 h1 {
-  color: tomato;
+  font-size: 38px;
+  font-family: "UnifrakturMaguntia", cursive;
 }
