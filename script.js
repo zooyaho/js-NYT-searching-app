@@ -14,6 +14,7 @@ const articleEl = document.querySelector(".article");
 const searchBtnEl = document.querySelector("#btn-search");
 const keywordBodyEl = document.querySelector(".keyword-body");
 const keywordWrapEl = document.querySelector(".keyword-wrap");
+const toggleBookmarkEl = document.querySelector(".toggle-bookmark");
 
 /* api호출하여 data 반환하는 함수 */
 function getData(url) {
@@ -141,6 +142,9 @@ window.addEventListener(
 );
 
 articleEl.addEventListener("click", (e) => {
-  const btnEl = e.target.parentNode;
-  btnEl.classList.add("active");
+  e.target.parentNode.classList.toggle("active");
+});
+
+toggleBookmarkEl.addEventListener("click", (e) => {
+  e.target.parentNode.classList.toggle("active");
 });
