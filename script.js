@@ -111,8 +111,10 @@ formEl.addEventListener("submit", (e) => {
   // 재로딩 방지
   e.preventDefault();
 });
+
 searchBtnEl.addEventListener("click", clickBtnHandler);
 inputEl.addEventListener("keyup", unchangedHendler);
+
 inputEl.addEventListener("focus", () => {
   if (searchHistory.length !== 0) {
     keywordWrapEl.style.display = "block";
@@ -121,6 +123,7 @@ inputEl.addEventListener("focus", () => {
 inputEl.addEventListener("blur", () => {
   keywordWrapEl.style.display = "none";
 });
+
 window.addEventListener(
   "scroll",
   _.throttle(() => {
@@ -136,3 +139,8 @@ window.addEventListener(
     }
   }, 1000)
 );
+
+articleEl.addEventListener("click", (e) => {
+  const btnEl = e.target.parentNode;
+  btnEl.classList.add("active");
+});
