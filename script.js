@@ -1,11 +1,10 @@
 import _ from "lodash";
 
-const ajax = new XMLHttpRequest();
 const NEWS_URL =
   "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=keyword&page=pageNum&sort=newest&api-key=FdwAiEGYCwpc9manUy55RoDgPUtMOWtX";
 let inputTimeId;
 let keyword;
-let newsData;
+let newsData; // api로 받아온 데이터
 let pageNum = 1;
 
 const inputEl = document.querySelector("#keyword");
@@ -13,20 +12,18 @@ const formEl = document.querySelector(".search-form");
 const articleEl = document.querySelector(".article");
 const searchBtnEl = document.querySelector("#btn-search");
 
-/* 데이터 받아오는 함수 */
+/* api호출하여 data 반환하는 함수 */
 function getData(url) {
-  ajax.open("Get", url, false); // false: 동기적으로 처리하는 옵션
-  ajax.send(); // 데이터를 가져오는 메서드
-
-  return JSON.parse(ajax.response); // response에 데이터가 들어옴
+  const response = fetch(url);
+  return response.then((res) => res.json());
 }
 
 /* article에 뉴스기사 html 추가하는 함수 */
-function addArticleHtml(pageNumber) {
+async function addArticleHtml(pageNumber) {
   const newsList = [];
 
   for (let j = 0; j < pageNumber; j++) {
-    newsData = getData(
+    newsData = await getData(
       NEWS_URL.replace("keyword", keyword.trim()).replace("pageNum", j + 1)
     ); // 키워드에 대한 뉴스 데이터 받아옴
     for (let i = 0; i < 10; i++) {
