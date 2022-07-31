@@ -53,9 +53,13 @@ async function addArticleHtml(pageNumber) {
 
 /* Search Button 클릭 시 api호출하는 핸들러 함수 */
 const clickBtnHandler = () => {
-  keyword = inputEl.value;
-  pageNum = 1;
-  addArticleHtml(pageNum);
+  if (inputEl.value !== "") {
+    keyword = inputEl.value;
+    pageNum = 1;
+    addArticleHtml(pageNum);
+  } else {
+    alert("검색어를 입력하세요.");
+  }
 };
 
 /* 0.5초 동안 추가입력이 없으면 api호출하는 핸들러 함수 */
