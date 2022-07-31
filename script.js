@@ -3,6 +3,7 @@ import _ from "lodash";
 const ajax = new XMLHttpRequest();
 const NEWS_URL =
   "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=keyword&page=pageNum&sort=newest&api-key=FdwAiEGYCwpc9manUy55RoDgPUtMOWtX";
+let inputTimeId;
 let keyword;
 let newsData;
 let pageNum = 1;
@@ -21,10 +22,10 @@ function getData(url) {
 }
 
 /* article에 뉴스기사 html 추가하는 함수 */
-function addArticleHtml(pageNumer) {
+function addArticleHtml(pageNumber) {
   const newsList = [];
 
-  for (let j = 0; j < pageNumer; j++) {
+  for (let j = 0; j < pageNumber; j++) {
     newsData = getData(
       NEWS_URL.replace("keyword", keyword.trim()).replace("pageNum", j + 1)
     ); // 키워드에 대한 뉴스 데이터 받아옴
@@ -62,13 +63,15 @@ const clickBtnHandler = () => {
 
 /* 0.5초 동안 추가입력이 없으면 api호출하는 핸들러 함수 */
 const unchangedHendler = (e) => {
-  setTimeout(() => {
+  clearTimeout(inputTimeId);
+  inputTimeId = setTimeout(() => {
     if (e.target.value !== "") {
       keyword = e.target.value;
       pageNum = 1;
       addArticleHtml(pageNum);
+      console.log(e.target.value);
     }
-  }, 500);
+  }, 1000);
 };
 
 inputEl.addEventListener("keyup", unchangedHendler);
