@@ -10,6 +10,7 @@ let keyword; // 검색어
 let articleItemsList; // 기사 리스트들
 let starBtnsList; // 별 버튼 리스트들
 let newsHtmlList = []; // 추가할 html 문자열 리스트
+let bookmarkTrigger = false;
 
 const inputEl = document.querySelector("#keyword");
 const formEl = document.querySelector(".search-form");
@@ -54,16 +55,16 @@ async function addArticleHtml() {
 }
 
 /* 새로운 검색 시 기사 추가하는 함수 */
-function keywordSearch() {
-  addArticleHtml();
+async function keywordSearch() {
+  await addArticleHtml();
   articleEl.innerHTML = newsHtmlList.join("");
   articleItemsList = document.querySelectorAll(".article-item");
   starBtnsList = document.querySelectorAll(".toggle-star");
 }
 
 /* 스크롤 바닥일때 기사 추가하는 함수 */
-function scrollEndArticleHtml() {
-  addArticleHtml();
+async function scrollEndArticleHtml() {
+  await addArticleHtml();
   const template = document.createElement("template");
   template.innerHTML = newsHtmlList.join("");
   const newListNode = template.content.children;
@@ -152,32 +153,15 @@ window.addEventListener(
 
     // header 높이: 190px
     // 스크롤이 바닥에 닿을 경우
-    if (windowHeight + scrollY - 190 >= fullHeight) {
+    if (windowHeight + scrollY - 190 >= fullHeight && !bookmarkTrigger) {
       console.log("스크롤 바닥!!!!");
       ++pageNum;
-      // addArticleHtml();
       scrollEndArticleHtml();
     }
   }, 1000)
 );
-// let activeBtnIndex = [];
 articleEl.addEventListener("click", (e) => {
   e.target.parentNode.classList.toggle("active");
-  [...starBtnsList].forEach((starBtn, index) => {
-    if (starBtn.classList.contains("active")) {
-      const curStarBtn =
-        articleItemsList[index].firstElementChild.lastElementChild;
-      curStarBtn.classList.add("active");
-    }
-    // activeBtnIndex[activeBtnIndex.length] = index;
-  });
-  /*
-  [...articleItemsList].forEach((articleItem) => {
-    const starBtn = articleItem.firstElementChild.lastElementChild;
-    starBtn.classList.add("active");
-    console.log(starBtn);
-  });
-  */
 });
 
 toggleBookmarkEl.addEventListener("click", (e) => {
@@ -185,17 +169,19 @@ toggleBookmarkEl.addEventListener("click", (e) => {
 
   if (isActive) {
     // 북마크 활성화
-    const activeStarsList = document.querySelectorAll(".toggle-star.active");
-
     articleEl.innerHTML = ""; // reset
-    [...activeStarsList].forEach((starBtnEl) => {
-      articleEl.appendChild(starBtnEl.parentNode.parentNode);
-    });
+    for (let i = 0; i < starBtnsList.length; i++) {
+      if (starBtnsList[i].classList.contains("active")) {
+        articleEl.appendChild(starBtnsList[i].parentNode.parentNode);
+      }
+    }
+    bookmarkTrigger = true;
   } else {
     // 북마크 비활성화
     articleEl.innerHTML = ""; // reset
     [...articleItemsList].forEach((articleItem) => {
       articleEl.appendChild(articleItem);
     });
+    bookmarkTrigger = false;
   }
 });
