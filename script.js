@@ -1,7 +1,7 @@
 import _ from "lodash";
+import API_KEY from "./token";
 
-const NEWS_URL =
-  "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=keyword&page=pageNum&sort=newest&api-key=FdwAiEGYCwpc9manUy55RoDgPUtMOWtX";
+const NEWS_URL = `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=keyword&page=pageNum&sort=newest&api-key=${API_KEY}`;
 let inputTimeId;
 let newsData; // api로 받아온 데이터
 let pageNum = 1;
