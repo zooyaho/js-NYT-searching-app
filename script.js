@@ -7,6 +7,9 @@ let newsData; // api로 받아온 데이터
 let pageNum = 1;
 let searchHistory = []; // 최근 검색어 최대 5개 저장
 let keyword; // 검색어
+let articleItemsList; // 기사 리스트들
+let starBtnsList; // 별 버튼 리스트들
+let newsHtmlList = []; // 추가할 html 문자열 리스트
 
 const inputEl = document.querySelector("#keyword");
 const formEl = document.querySelector(".search-form");
@@ -23,15 +26,13 @@ function getData(url) {
 }
 
 /* article에 뉴스기사 html 추가하는 함수 */
-async function addArticleHtml(pageNumber) {
-  const newsList = [];
-
-  for (let j = 0; j < pageNumber; j++) {
-    newsData = await getData(
-      NEWS_URL.replace("keyword", keyword.trim()).replace("pageNum", j + 1)
-    ); // 키워드에 대한 뉴스 데이터 받아옴
-    for (let i = 0; i < 10; i++) {
-      newsList.push(`
+async function addArticleHtml() {
+  newsData = await getData(
+    NEWS_URL.replace("keyword", keyword.trim()).replace("pageNum", pageNum)
+  ); // 키워드에 대한 뉴스 데이터 받아옴
+  newsHtmlList = [];
+  for (let i = 0; i < 10; i++) {
+    newsHtmlList.push(`
         <div class="article-item">
             <div class="article-header">
               <a href="${newsData.response.docs[i].web_url}" class="title" target="_blank">
@@ -49,10 +50,28 @@ async function addArticleHtml(pageNumber) {
             </div>
           </div>
         `);
-    }
   }
+}
 
-  articleEl.innerHTML = newsList.join("");
+/* 새로운 검색 시 기사 추가하는 함수 */
+function keywordSearch() {
+  addArticleHtml();
+  articleEl.innerHTML = newsHtmlList.join("");
+  articleItemsList = document.querySelectorAll(".article-item");
+  starBtnsList = document.querySelectorAll(".toggle-star");
+}
+
+/* 스크롤 바닥일때 기사 추가하는 함수 */
+function scrollEndArticleHtml() {
+  addArticleHtml();
+  const template = document.createElement("template");
+  template.innerHTML = newsHtmlList.join("");
+  const newListNode = template.content.children;
+  for (let i = 0; i < newListNode.length; i++) {
+    articleEl.appendChild(newListNode[i]);
+  }
+  articleItemsList = document.querySelectorAll(".article-item");
+  starBtnsList = document.querySelectorAll(".toggle-star");
 }
 
 /* keywordBody에 최근 검색어 html 추가하는 함수 */
@@ -70,7 +89,7 @@ function addkeywordHistoryHtml() {
 }
 
 /* 검색어 searchHistory에 저장하는 함수 */
-function AddSearchHistory(keyword) {
+function addSearchHistory(keyword) {
   searchHistory.reverse();
   // 검색어 최대 5개까지 저장
   if (searchHistory.length < 5) {
@@ -87,8 +106,8 @@ const clickBtnHandler = () => {
   if (inputEl.value !== "") {
     keyword = inputEl.value;
     pageNum = 1;
-    addArticleHtml(pageNum);
-    AddSearchHistory(inputEl.value);
+    keywordSearch();
+    addSearchHistory(inputEl.value);
   } else {
     alert("검색어를 입력하세요.");
   }
@@ -101,8 +120,8 @@ const unchangedHendler = (e) => {
     if (e.target.value !== "") {
       keyword = e.target.value;
       pageNum = 1;
-      addArticleHtml(pageNum);
-      AddSearchHistory(e.target.value);
+      keywordSearch();
+      addSearchHistory(e.target.value);
       keywordWrapEl.style.display = "block";
     }
   }, 2000);
@@ -136,15 +155,47 @@ window.addEventListener(
     if (windowHeight + scrollY - 190 >= fullHeight) {
       console.log("스크롤 바닥!!!!");
       ++pageNum;
-      addArticleHtml(pageNum);
+      // addArticleHtml();
+      scrollEndArticleHtml();
     }
   }, 1000)
 );
-
+// let activeBtnIndex = [];
 articleEl.addEventListener("click", (e) => {
   e.target.parentNode.classList.toggle("active");
+  [...starBtnsList].forEach((starBtn, index) => {
+    if (starBtn.classList.contains("active")) {
+      const curStarBtn =
+        articleItemsList[index].firstElementChild.lastElementChild;
+      curStarBtn.classList.add("active");
+    }
+    // activeBtnIndex[activeBtnIndex.length] = index;
+  });
+  /*
+  [...articleItemsList].forEach((articleItem) => {
+    const starBtn = articleItem.firstElementChild.lastElementChild;
+    starBtn.classList.add("active");
+    console.log(starBtn);
+  });
+  */
 });
 
 toggleBookmarkEl.addEventListener("click", (e) => {
-  e.target.parentNode.classList.toggle("active");
+  const isActive = e.target.parentNode.classList.toggle("active");
+
+  if (isActive) {
+    // 북마크 활성화
+    const activeStarsList = document.querySelectorAll(".toggle-star.active");
+
+    articleEl.innerHTML = ""; // reset
+    [...activeStarsList].forEach((starBtnEl) => {
+      articleEl.appendChild(starBtnEl.parentNode.parentNode);
+    });
+  } else {
+    // 북마크 비활성화
+    articleEl.innerHTML = ""; // reset
+    [...articleItemsList].forEach((articleItem) => {
+      articleEl.appendChild(articleItem);
+    });
+  }
 });
