@@ -125,7 +125,7 @@ header {
   margin: 200px 0% 3% 2%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: repeat(auto-fill, minmax(10rem, 10rem));
+  grid-auto-rows: 1fr;
   line-height: 1.2;
   &-item {
     margin: 1rem;
@@ -141,7 +141,6 @@ header {
       display: flex;
       flex-wrap: nowrap;
       justify-content: space-between;
-      // height: 40%;
       .title {
         overflow: hidden;
         font-weight: bold;
@@ -164,7 +163,7 @@ header {
       font-size: 15px;
     }
     .article-footer {
-      font-size: 11px;
+      font-size: 14px;
       font-weight: 500;
       color: #8e8e8e;
       margin-top: 0.3rem;

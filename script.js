@@ -36,7 +36,9 @@ async function addArticleHtml() {
     newsHtmlList.push(`
         <div class="article-item">
             <div class="article-header">
-              <a href="${newsData.response.docs[i].web_url}" class="title" target="_blank">
+              <a href="${
+                newsData.response.docs[i].web_url
+              }" class="title" target="_blank">
                 ${newsData.response.docs[i].headline.main}
               </a>
               <button class="toggle-star">
@@ -47,7 +49,10 @@ async function addArticleHtml() {
               <p>${newsData.response.docs[i].abstract}</p>
             </div>
             <div class="article-footer">
-              <span class="date">${newsData.response.docs[i].pub_date}</span>
+              <span class="date">${newsData.response.docs[i].pub_date.slice(
+                0,
+                10
+              )} ${newsData.response.docs[i].pub_date.slice(11, 19)}</span>
             </div>
           </div>
         `);
