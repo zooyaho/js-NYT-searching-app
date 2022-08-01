@@ -38,7 +38,7 @@ async function addArticleHtml() {
             <div class="article-header">
               <a href="${
                 newsData.response.docs[i].web_url
-              }" class="title" target="_blank">
+              }" class="title" target="_blank" rel="noopener noreferrer">
                 ${newsData.response.docs[i].headline.main}
               </a>
               <button class="toggle-star">
