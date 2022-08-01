@@ -65,6 +65,12 @@ async function keywordSearch() {
   articleEl.innerHTML = newsHtmlList.join("");
   articleItemsList = document.querySelectorAll(".article-item");
   starBtnsList = document.querySelectorAll(".toggle-star");
+
+  if (window.innerHeight > document.body.scrollHeight && pageNum === 1) {
+    // 첫페이지가 화면의 높이를 모두 채우지 못한 경우 다음 페이지 api요청
+    ++pageNum;
+    scrollEndArticleHtml();
+  }
 }
 
 /* 스크롤 바닥일때 기사 추가하는 함수 */
