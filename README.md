@@ -1,6 +1,6 @@
 # Toy Project
 
-> react-NYT-searching-app : React기반의 NYT 뉴스기사 검색 홈페이지
+> js-NYT-app : JS기반의 NYT 뉴스기사 검색 홈페이지
 
 ## 👾 결과 화면
 
